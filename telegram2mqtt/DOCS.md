@@ -60,6 +60,10 @@ Option B (group chats):
 3. Use a chat ID helper bot/API to retrieve the group chat ID.
 4. Set that value in `telegram_chat_id`.
 
+## Mosquitto Broker Setup
+
+If you're using the official Mosquitto broker for Home Assistant, an easy way to add a username and password to the broker is to go to "Settings" (in Home Assistant itself, not in the Mosquitto app), "People", and add a new user by clicking "Add Person", set a name —for example, `MQTT`—, check "Allow login", set a username —for example, `mqtt`—, set the password, and check "Local access only", but leave "Administrator" unchecked. This username and password should now work for authentication with the official Mosquitto broker.
+
 ## Required Configuration
 
 - `telegram_api_token` (string)
