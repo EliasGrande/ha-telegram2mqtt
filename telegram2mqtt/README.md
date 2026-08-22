@@ -19,6 +19,6 @@ Telegram2MQTT is a Home Assistant app that bridges MQTT messages to Telegram bot
 
 ## More Details
 
-If you are seeing this in Home Assistant see [Documentation](documentation) for more details.
+If you are seeing this in Home Assistant see `Documentation` tab (top menu) for more details.
 
 If you are seeing this in GitHub see [DOCS.md](DOCS.md) for more details.
