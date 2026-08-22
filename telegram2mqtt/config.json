@@ -1,0 +1,58 @@
+{
+    "name": "Telegram2MQTT",
+    "version": "1.0.0",
+    "slug": "telegram2mqtt",
+    "description": "Sends notifications through a Telegram bot and exposes controls through MQTT",
+    "url": "https://github.com/EliasGrande/ha-telegram2mqtt",
+    "services": [
+        "mqtt:need"
+    ],
+    "arch": [
+        "aarch64",
+        "amd64",
+        "armhf",
+        "armv7",
+        "i386"
+    ],
+    "boot": "auto",
+    "init": false,
+    "host_network": true,
+    "map": [
+        "ssl"
+    ],
+    "options": {
+        "mqtt_host": "homeassistant.local",
+        "mqtt_port": 8883,
+        "mqtt_ssl_enabled": true,
+        "mqtt_ssl_insecure": false,
+        "mqtt_ssl_certfile": "fullchain.pem",
+        "mqtt_ssl_keyfile": "privkey.pem",
+        "mqtt_base_topic": "mqtt_telegram_bot",
+        "mqtt_republish_interval": 60,
+        "telegram_api_url": "https://api.telegram.org/bot{token}",
+        "telegram_parse_mode": "MarkdownV2",
+        "telegram_message_start": "👌 *telegram2mqtt* started",
+        "telegram_message_stop": "💀 *telegram2mqtt* stopped",
+        "debug": false
+    },
+    "schema": {
+        "mqtt_host": "str",
+        "mqtt_port": "int",
+        "mqtt_user": "str?",
+        "mqtt_pass": "str?",
+        "mqtt_ssl_enabled": "bool",
+        "mqtt_ssl_insecure": "bool",
+        "mqtt_ssl_certfile": "str",
+        "mqtt_ssl_keyfile": "str",
+        "mqtt_base_topic": "match([a-z_]+(/[a-z_]+)*)",
+        "mqtt_republish_interval": "int",
+        "telegram_api_token": "str",
+        "telegram_api_url": "str",
+        "telegram_chat_id": "int",
+        "telegram_parse_mode": "list(MarkdownV2|HTML|Markdown)",
+        "telegram_message_prefix": "str?",
+        "telegram_message_start": "str",
+        "telegram_message_stop": "str",
+        "debug": "bool"
+    }
+}

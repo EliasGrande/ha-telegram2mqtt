@@ -1,0 +1,76 @@
+{
+    "configuration": {
+        "mqtt_host": {
+            "name": "Host MQTT",
+            "description": "Normalmente \"homeassistant.local\"."
+        },
+        "mqtt_port": {
+            "name": "Puerto MQTT",
+            "description": "Normalmente 1883 (MQTT sin SSL) o 8883 (MQTT con SSL)."
+        },
+        "mqtt_user": {
+            "name": "Usuario MQTT",
+            "description": "Obligatorio si tu broker MQTT requiere autenticación."
+        },
+        "mqtt_pass": {
+            "name": "Contraseña MQTT",
+            "description": "Obligatoria si tu broker MQTT requiere autenticación."
+        },
+        "mqtt_ssl_enabled": {
+            "name": "MQTT SSL",
+            "description": "Si se activa, cifra la comunicación con el host MQTT."
+        },
+        "mqtt_ssl_insecure": {
+            "name": "Omitir validación SSL de MQTT",
+            "description": "Si se activa, omite la validación SSL. Usar solo para pruebas."
+        },
+        "mqtt_ssl_certfile": {
+            "name": "Archivo de certificado MQTT",
+            "description": "Archivo con el certificado y su cadena. Colócalo en la carpeta `ssl` de Home Assistant.\nSe ignora si SSL está desactivado o si se omite la validación SSL."
+        },
+        "mqtt_ssl_keyfile": {
+            "name": "Archivo de clave privada MQTT",
+            "description": "Archivo con la clave privada. Colócalo en la carpeta `ssl` de Home Assistant.\nSe ignora si SSL está desactivado o si se omite la validación SSL."
+        },
+        "mqtt_base_topic": {
+            "name": "Topic base MQTT",
+            "description": "Topic raíz de la app. Por ejemplo, \"{base_topic}/send_text/set\" se usa para enviar mensajes del bot."
+        },
+        "mqtt_republish_interval": {
+            "name": "Intervalo de republicación MQTT",
+            "description": "Intervalo de republicación para sensores expuestos, por ejemplo \"{base_topic}/running/available\"."
+        },
+        "telegram_api_token": {
+            "name": "Token API de Telegram",
+            "description": "Crea un bot con @BotFather usando /newbot y pega aquí el token que devuelve BotFather."
+        },
+        "telegram_api_url": {
+            "name": "URL API de Telegram",
+            "description": "El marcador \"{token}\" se reemplaza por el token API configurado."
+        },
+        "telegram_chat_id": {
+            "name": "Chat ID de Telegram",
+            "description": "Usa @userinfobot y envía /start para obtener tu chat ID numérico."
+        },
+        "telegram_parse_mode": {
+            "name": "Modo de parseo de mensajes de Telegram",
+            "description": "Consulta https://core.telegram.org/bots/api#formatting-options."
+        },
+        "telegram_message_prefix": {
+            "name": "Prefijo de mensajes de Telegram",
+            "description": "Prefijo añadido a todos los mensajes enviados por el bot, útil para pruebas."
+        },
+        "telegram_message_start": {
+            "name": "Mensaje de inicio de Telegram",
+            "description": "Mensaje que envía el bot al iniciar la app (por defecto: \"👌 *telegram2mqtt* started\").\nIconos: https://apps.timwhitlock.info/emoji/tables/unicode."
+        },
+        "telegram_message_stop": {
+            "name": "Mensaje de parada de Telegram",
+            "description": "Mensaje que envía el bot al detener la app (por defecto: \"💀 *telegram2mqtt* stopped\").\nIconos: https://apps.timwhitlock.info/emoji/tables/unicode."
+        },
+        "debug": {
+            "name": "Logs de depuración",
+            "description": "Activa el registro de mensajes a nivel DEBUG."
+        }
+    }
+}

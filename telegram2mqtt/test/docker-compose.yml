@@ -1,0 +1,90 @@
+services:
+  mosquitto:
+    build:
+      context: ./mosquitto
+    container_name: telegram2mqtt-mosquitto
+    volumes:
+      - mosquitto-data:/mosquitto/data
+      - shared-test-artifacts:/shared
+    networks:
+      - main
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -h 127.0.0.1 -p 8883 -u mqtt -P ExamplePassword123 --cafile /mosquitto/certs/ca.crt --insecure -t '$$SYS/broker/version' -C 1 >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+
+  telegram-mock:
+    image: python:3.12-alpine
+    container_name: telegram2mqtt-telegram-mock
+    working_dir: /app
+    command: ["python3", "/app/server.py"]
+    environment:
+      TELEGRAM_MOCK_OUTPUT: /shared/telegram_messages.jsonl
+    volumes:
+      - ./telegram-mock:/app:ro
+      - shared-test-artifacts:/shared
+    networks:
+      - main
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8081/health').read()\""]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 2s
+
+  telegram2mqtt:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      # args:
+      #   BUILD_FROM: ghcr.io/home-assistant/amd64-base:3.22
+    image: telegram2mqtt:test
+    container_name: telegram2mqtt-app
+    tty: true
+    stdin_open: true
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+      telegram-mock:
+        condition: service_healthy
+    volumes:
+      - ./data:/data
+      - shared-test-artifacts:/shared
+    networks:
+      - main
+    entrypoint: ["python3", "/app/main.py"]
+
+  verifier:
+    image: python:3.12-alpine
+    container_name: telegram2mqtt-verifier
+    working_dir: /app
+    command: ["sh", "-c", "pip install --no-cache-dir --disable-pip-version-check --root-user-action=ignore -q -r requirements.txt && python3 verify.py"]
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+      telegram-mock:
+        condition: service_healthy
+      telegram2mqtt:
+        condition: service_started
+    environment:
+      MQTT_HOST: mosquitto
+      MQTT_PORT: 8883
+      MQTT_USER: mqtt
+      MQTT_PASS: ExamplePassword123
+      MQTT_BASE_TOPIC: mqtt_telegram_bot
+      TELEGRAM_MOCK_OUTPUT: /shared/telegram_messages.jsonl
+    volumes:
+      - ./verifier:/app:ro
+      - shared-test-artifacts:/shared
+    networks:
+      - main
+
+volumes:
+  mosquitto-data:
+  shared-test-artifacts:
+
+networks:
+  main:
+    driver: bridge

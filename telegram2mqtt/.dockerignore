@@ -1,0 +1,16 @@
+# Ignore Python cache and temporary files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore hidden files and directories (e.g., .git, .DS_Store)
+.*
+!.env  # If you want to include .env files
+
+# Ignore OS-specific files
+Thumbs.db
+.DS_Store
+
+# Ignore editor temp files
+*~
+*.swp

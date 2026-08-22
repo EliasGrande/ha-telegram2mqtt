@@ -1,0 +1,16 @@
+mqtt_host: 'mosquitto'
+mqtt_port: 8883
+mqtt_user: 'mqtt'
+mqtt_pass: 'ExamplePassword123'
+mqtt_ssl_enabled: true
+mqtt_ssl_insecure: true
+mqtt_base_topic: 'mqtt_telegram_bot'
+mqtt_republish_interval: 60
+telegram_api_url: 'http://telegram-mock:8081/bot{token}'
+telegram_api_token: '1234567890:ABCDabcd123-ABCDEFGabcdefg123456789'
+telegram_chat_id: 12345678
+telegram_parse_mode: 'MarkdownV2'
+telegram_message_prefix: 'testing: '
+telegram_message_start: '👌 *telegram2mqtt* started'
+telegram_message_stop: '💀 *telegram2mqtt* stopped'
+debug: false

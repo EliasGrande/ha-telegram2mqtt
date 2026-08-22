@@ -1,0 +1,76 @@
+{
+    "configuration": {
+        "mqtt_host": {
+            "name": "MQTT host",
+            "description": "Usually \"homeassistant.local\"."
+        },
+        "mqtt_port": {
+            "name": "MQTT port",
+            "description": "Usually 1883 (normal MQTT) or 8883 (normal MQTT with SSL)."
+        },
+        "mqtt_user": {
+            "name": "MQTT username",
+            "description": "Required when your MQTT broker requires authentication."
+        },
+        "mqtt_pass": {
+            "name": "MQTT password",
+            "description": "Required when your MQTT broker requires authentication."
+        },
+        "mqtt_ssl_enabled": {
+            "name": "MQTT SSL",
+            "description": "If enabled will encrypt communications with the MQTT host."
+        },
+        "mqtt_ssl_insecure": {
+            "name": "Skip MQTT SSL validation",
+            "description": "If enabled will skip SSL validation, use only for testing."
+        },
+        "mqtt_ssl_certfile": {
+            "name": "MQTT Certificate File",
+            "description": "A file containing a certificate, including its chain. Place this file in the Home Assistant `ssl` folder.\nOption ignored if SSL is disabled or SSL validation is skipped."
+        },
+        "mqtt_ssl_keyfile": {
+            "name": "MQTT Private Key File",
+            "description": "A file containing the private key. Place this file in the Home Assistant `ssl` folder.\nOption ignored if SSL is disabled or SSL validation is skipped."
+        },
+        "mqtt_base_topic": {
+            "name": "MQTT base topic",
+            "description": "Root topic for this app. For example, \"{base_topic}/send_text/set\" is used to send bot messages."
+        },
+        "mqtt_republish_interval": {
+            "name": "MQTT republish interval",
+            "description": "Republish interval for exposed sensors, e.g. \"{base_topic}/running/available\"."
+        },
+        "telegram_api_token": {
+            "name": "Telegram API token",
+            "description": "Create a bot with @BotFather using /newbot, then paste the token returned by BotFather here."
+        },
+        "telegram_api_url": {
+            "name": "Telegram API URL",
+            "description": "The \"{token}\" placeholder will be replaced with the given API token."
+        },
+        "telegram_chat_id": {
+            "name": "Telegram chat ID",
+            "description": "Use @userinfobot and send /start to get your numeric chat ID."
+        },
+        "telegram_parse_mode": {
+            "name": "Telegram message parse mode",
+            "description": "See https://core.telegram.org/bots/api#formatting-options."
+        },
+        "telegram_message_prefix": {
+            "name": "Telegram messages prefix",
+            "description": "Prefix added to all the messages sent by the bot, for testing purposes."
+        },
+        "telegram_message_start": {
+            "name": "Telegram greeting message",
+            "description": "Message sent by the bot when the app starts (default: \"👌 *telegram2mqtt* started\").\nIcon from https://apps.timwhitlock.info/emoji/tables/unicode."
+        },
+        "telegram_message_stop": {
+            "name": "Telegram goodbye message",
+            "description": "Message sent by the bot when the app stops (default: \"💀 *telegram2mqtt* stopped\").\nIcon from https://apps.timwhitlock.info/emoji/tables/unicode."
+        },
+        "debug": {
+            "name": "Debug logs",
+            "description": "Enables the logging of DEBUG-level messages."
+        }
+    }
+}
