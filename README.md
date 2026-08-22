@@ -2,13 +2,10 @@
 
 Telegram2MQTT for Home Assistant app repositories.
 
-This repository contains:
-- A Home Assistant app repository descriptor in `repository.json`.
-- The Telegram2MQTT app in `telegram2mqtt/`.
-
-Main repository URL:
-- https://github.com/EliasGrande/ha-telegram2mqtt
+What this app does:
+- Listens to a `send` MQTT command topic and forwards messages to Telegram.
+- Publishes `availability` and `state` MQTT topics for Home Assistant automations.
 
 For setup and app usage details, see:
-- `telegram2mqtt/README.md`
-- `telegram2mqtt/DOCS.md`
+- [telegram2mqtt/README.md](telegram2mqtt/README.md)
+- [telegram2mqtt/DOCS.md](telegram2mqtt/DOCS.md)
