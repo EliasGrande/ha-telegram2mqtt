@@ -66,9 +66,28 @@ If you're using the official Mosquitto broker for Home Assistant, an easy way to
 
 ## Automation Examples
 
+`configuration.yaml`
 ```yaml
-# TelegramBot: Front door open
-- alias: "TelegramBot: Front door open"
+automation: !include automations.yaml
+
+# Auxiliary inputs to avoid SPAM due to unavailability, restarts, or whatever, on Telegram automations
+input_select:
+  last_notified_telegram_front_door_contact:
+    options:
+      - "open"
+      - "closed"
+    initial: "closed"
+  last_notified_telegram_power_relay:
+    options:
+      - "on"
+      - "off"
+    initial: "on"
+```
+
+`automations.yaml`
+```yaml
+# Telegram: Front door open
+- alias: "Telegram: Front door open"
   trigger:
     - trigger: state
       entity_id: binary_sensor.front_door_contact
@@ -97,8 +116,8 @@ If you're using the official Mosquitto broker for Home Assistant, an easy way to
           {% set timeout = (as_timestamp(now()) + 5) | int | string %}
           {{ '{ "timeout": ' + timeout + ', "text": "' + msg + '" }' }}
 
-# TelegramBot: Front door closed
-- alias: "TelegramBot: Front door closed"
+# Telegram: Front door closed
+- alias: "Telegram: Front door closed"
   trigger:
     - trigger: state
       entity_id: binary_sensor.front_door_contact
@@ -127,8 +146,8 @@ If you're using the official Mosquitto broker for Home Assistant, an easy way to
           {% set timeout = (as_timestamp(now()) + 5) | int | string %}
           {{ '{ "timeout": ' + timeout + ', "text": "' + msg + '" }' }}
 
-# TelegramBot: Power outage
-- alias: "TelegramBot: Power outage"
+# Telegram: Power outage
+- alias: "Telegram: Power outage"
   trigger:
     - trigger: state
       entity_id: sensor.ups_status
@@ -157,8 +176,8 @@ If you're using the official Mosquitto broker for Home Assistant, an easy way to
           {% set timeout = (as_timestamp(now()) + 5) | int | string %}
           {{ '{ "timeout": ' + timeout + ', "text": "' + msg + '" }' }}
 
-# TelegramBot: Power resumption
-- alias: "TelegramBot: Power resumption"
+# Telegram: Power resumption
+- alias: "Telegram: Power resumption"
   trigger:
     - trigger: state
       entity_id: sensor.ups_status
