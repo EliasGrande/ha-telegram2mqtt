@@ -64,48 +64,135 @@ Option B (group chats):
 
 If you're using the official Mosquitto broker for Home Assistant, an easy way to add a username and password to the broker is to go to "Settings" (in Home Assistant itself, not in the Mosquitto app), "People", and add a new user by clicking "Add Person", set a name —for example, `MQTT`—, check "Allow login", set a username —for example, `mqtt`—, set the password, and check "Local access only", but leave "Administrator" unchecked. This username and password should now work for authentication with the official Mosquitto broker.
 
-## Required Configuration
+## Automation Examples
 
-- `telegram_api_token` (string)
-- `telegram_chat_id` (integer)
+```yaml
+# TelegramBot: Front door open
+- alias: "TelegramBot: Front door open"
+  trigger:
+    - trigger: state
+      entity_id: binary_sensor.front_door_contact
+      to: "on"
+  condition:
+    # [no-spam]
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: input_select.last_notified_telegram_front_door_contact
+          state: "open"
+    # [/no-spam]
+  action:
+    # [no-spam]
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.last_notified_telegram_front_door_contact
+      data:
+        option: "open"
+    # [/no-spam]
+    - action: mqtt.publish
+      data_template:
+        topic: "mqtt_telegram_bot/send_text/set"
+        payload: >-
+          {% set msg = '⚠ Front door open' %}
+          {% set timeout = (as_timestamp(now()) + 5) | int | string %}
+          {{ '{ "timeout": ' + timeout + ', "text": "' + msg + '" }' }}
 
-## Optional Configuration
+# TelegramBot: Front door closed
+- alias: "TelegramBot: Front door closed"
+  trigger:
+    - trigger: state
+      entity_id: binary_sensor.front_door_contact
+      to: "off"
+  condition:
+    # [no-spam]
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: input_select.last_notified_telegram_front_door_contact
+          state: "closed"
+    # [/no-spam]
+  action:
+    # [no-spam]
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.last_notified_telegram_front_door_contact
+      data:
+        option: "closed"
+    # [/no-spam]
+    - action: mqtt.publish
+      data_template:
+        topic: "mqtt_telegram_bot/send_text/set"
+        payload: >-
+          {% set msg = '🚪 Front door closed' %}
+          {% set timeout = (as_timestamp(now()) + 5) | int | string %}
+          {{ '{ "timeout": ' + timeout + ', "text": "' + msg + '" }' }}
 
-### MQTT
+# TelegramBot: Power outage
+- alias: "TelegramBot: Power outage"
+  trigger:
+    - trigger: state
+      entity_id: sensor.ups_status
+      to: "On Battery"
+  condition:
+    # [no-spam]
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: input_select.last_notified_telegram_power_relay
+          state: "off"
+    # [/no-spam]
+  action:
+    # [no-spam]
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.last_notified_telegram_power_relay
+      data:
+        option: "off"
+    # [/no-spam]
+    - action: mqtt.publish
+      data_template:
+        topic: "mqtt_telegram_bot/send_text/set"
+        payload: >-
+          {% set msg = '⚠ Power outage' %}
+          {% set timeout = (as_timestamp(now()) + 5) | int | string %}
+          {{ '{ "timeout": ' + timeout + ', "text": "' + msg + '" }' }}
 
-- `mqtt_host` (default: `homeassistant.local`)
-- `mqtt_port` (default: `8883`)
-- `mqtt_user` (optional)
-- `mqtt_pass` (optional, required when `mqtt_user` is set)
-- `mqtt_ssl_enabled` (default: `true`)
-- `mqtt_ssl_insecure` (default: `false`)
-- `mqtt_ssl_certfile` (default: `fullchain.pem`)
-- `mqtt_ssl_keyfile` (default: `privkey.pem`)
-- `mqtt_base_topic` (default: `mqtt_telegram_bot`)
-- `mqtt_republish_interval` (default: `60`)
-
-### Telegram
-
-- `telegram_api_url` (default: `https://api.telegram.org/bot{token}`)
-- `telegram_parse_mode` (`MarkdownV2`, `HTML`, or `Markdown`)
-- `telegram_message_prefix` (optional, useful to distinguish environments)
-- `telegram_message_start` (startup message)
-- `telegram_message_stop` (shutdown message)
-
-### Runtime
-
-- `debug` (default: `false`)
+# TelegramBot: Power resumption
+- alias: "TelegramBot: Power resumption"
+  trigger:
+    - trigger: state
+      entity_id: sensor.ups_status
+      to: "Online"
+  condition:
+    # [no-spam]
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: input_select.last_notified_telegram_power_relay
+          state: "on"
+    # [/no-spam]
+  action:
+    # [no-spam]
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.last_notified_telegram_power_relay
+      data:
+        option: "on"
+    # [/no-spam]
+    - action: mqtt.publish
+      data_template:
+        topic: "mqtt_telegram_bot/send_text/set"
+        payload: >-
+          {% set msg = '⚡ Power resumption' %}
+          {% set timeout = (as_timestamp(now()) + 5) | int | string %}
+          {{ '{ "timeout": ' + timeout + ', "text": "' + msg + '" }' }}
+```
 
 ## SSL Files
 
 When SSL is enabled and secure validation is used:
 - Place certificate and key files in Home Assistant `ssl` directory.
 - Reference filenames (not full paths) in options.
-
-## Notes for Users
-
-- You normally configure everything in the Home Assistant UI.
-- You do not need to manually edit internal files.
 
 ## Troubleshooting
 
