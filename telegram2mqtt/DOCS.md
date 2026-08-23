@@ -150,8 +150,8 @@ input_select:
 - alias: "Telegram: Power outage"
   trigger:
     - trigger: state
-      entity_id: sensor.ups_status
-      to: "On Battery"
+      entity_id: sensor.ups_status_data
+      to: "OB DISCHRG"
   condition:
     # [no-spam]
     - condition: not
@@ -180,8 +180,10 @@ input_select:
 - alias: "Telegram: Power resumption"
   trigger:
     - trigger: state
-      entity_id: sensor.ups_status
-      to: "Online"
+      entity_id: sensor.ups_status_data
+      to:
+        - "OL"
+        - "OL CHRG"
   condition:
     # [no-spam]
     - condition: not
