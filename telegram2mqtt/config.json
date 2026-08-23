@@ -1,6 +1,6 @@
 {
     "name": "Telegram2MQTT",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "slug": "telegram2mqtt",
     "description": "Sends notifications through a Telegram bot and exposes controls through MQTT",
     "url": "https://github.com/EliasGrande/ha-telegram2mqtt",
